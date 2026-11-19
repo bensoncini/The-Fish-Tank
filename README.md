@@ -8,7 +8,9 @@ The fish bois' group library. Everyone signs in with Google, picks a fish, and t
 
 Adding a book searches [Open Library](https://openlibrary.org), so the cover, author and year fill in automatically.
 
-It's a plain static site (HTML, CSS, JS, no build step) hosted on **GitHub Pages**, with **Firebase** handling sign-in and storing the books. Both are free at this size.
+Live at **<https://thefishtank.netlify.app>**.
+
+It's a plain static site (HTML, CSS, JS, no build step). The code lives on **GitHub**, **Netlify** hosts it and redeploys on every push to `main`, and **Firebase** handles sign-in and stores the books. All free at this size.
 
 ---
 
@@ -43,22 +45,31 @@ Only emails on this list can see or add books.
 
 To add a friend later, add their email to `emails`. They reload the site and they're in.
 
-### 5. Put the site on GitHub Pages
+### 5. Put the code on GitHub
 
-1. Create a new **public** repository on GitHub (for example `the-fish-tank`). Don't add a README, .gitignore or licence.
-2. Push this folder to it (GitHub shows the commands; they look like):
+1. Create a new repository on GitHub. Don't add a README, .gitignore or licence.
+2. Push this folder to it:
    ```bash
-   git remote add origin https://github.com/YOUR-USERNAME/the-fish-tank.git
+   git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
    git push -u origin main
    ```
-3. In the repo: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/ (root)`, **Save**.
-4. After a minute the site is live at `https://YOUR-USERNAME.github.io/the-fish-tank/`.
 
-### 6. Allow sign-in from your GitHub Pages address
+### 6. Host it on Netlify
 
-Firebase → **Authentication → Settings → Authorized domains → Add domain** → `YOUR-USERNAME.github.io`.
+1. Sign in at <https://app.netlify.com>, then **Add new project → Import an existing project → GitHub**, and pick the repo.
+2. Branch `main`. Leave base directory, build command and publish directory blank. **Deploy**.
+3. **Project configuration → Change project name** to pick the address (here, `thefishtank` → `thefishtank.netlify.app`).
+4. **Project configuration → Access & security → Visitor access**: make sure protection is **off**, or your friends get a Netlify login page instead of the site.
 
-Without this, the Google sign-in popup errors on the live site.
+Every push to `main` redeploys automatically.
+
+### 7. Allow sign-in from the live address
+
+The site's address has to be allowed in three places, or Google sign-in fails there:
+
+1. Firebase → **Authentication → Settings → Authorized domains → Add domain** → `thefishtank.netlify.app`.
+2. Google Cloud → **APIs & Services → Credentials** → *Browser key (auto created by Firebase)* → **Website restrictions**: `https://thefishtank.netlify.app/*`, plus `https://YOUR-PROJECT.firebaseapp.com/*` and `http://localhost:8080/*`.
+3. Google Cloud → **Google Auth Platform → Branding**: home page `https://thefishtank.netlify.app/`, privacy policy `https://thefishtank.netlify.app/privacy.html`, authorized domain `thefishtank.netlify.app`.
 
 ---
 
