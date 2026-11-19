@@ -1,0 +1,74 @@
+rules_version = '2';
+
+// The Fish Tank — Firestore security rules.
+// Paste this into Firebase console → Firestore Database → Rules, then Publish.
+//
+// Who gets in is controlled by one document: config/members
+//   emails: ["you@gmail.com", "friend@gmail.com", ...]   (lowercase)
+//   admins: ["you@gmail.com"]                            (optional: can tidy anyone's books)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function memberDoc() {
+      return get(/databases/$(database)/documents/config/members).data;
+    }
+    function isMember() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && exists(/databases/$(database)/documents/config/members)
+        && request.auth.token.email.lower() in memberDoc().emails;
+    }
+    function isAdmin() {
+      return isMember() && request.auth.token.email.lower() in memberDoc().get('admins', []);
+    }
+
+    function optNumber(d, k) { return !(k in d) || d[k] == null || d[k] is number; }
+    function optString(d, k, max) { return !(k in d) || d[k] == null || (d[k] is string && d[k].size() <= max); }
+
+    function validBook(d) {
+      return d.keys().hasOnly(['title', 'author', 'shelf', 'note', 'owner', 'rating',
+                               'addedAt', 'updatedAt', 'finishedAt', 'coverId', 'olKey', 'year', 'isbn'])
+        && d.title is string && d.title.size() > 0 && d.title.size() <= 200
+        && d.author is string && d.author.size() <= 200
+        && d.note is string && d.note.size() <= 280
+        && d.shelf in ['reading', 'read', 'want']
+        && d.rating is number && d.rating >= 0 && d.rating <= 5
+        && d.owner is string
+        && d.addedAt is number && d.updatedAt is number
+        && optNumber(d, 'finishedAt') && optNumber(d, 'coverId') && optNumber(d, 'year')
+        && optString(d, 'olKey', 60) && optString(d, 'isbn', 13);
+    }
+
+    function validFish(d) {
+      return d.keys().hasOnly(['name', 'color', 'joinedAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 30
+        && d.color in ['coral', 'gold', 'sky', 'bubblegum', 'kelp', 'grape'];
+    }
+
+    // Member list: readable by members, edited only in the Firebase console.
+    match /config/{docId} {
+      allow read: if isMember();
+      allow write: if false;
+    }
+
+    // One fish profile per person, keyed by their sign-in uid.
+    match /fish/{uid} {
+      allow read: if isMember();
+      allow create, update: if isMember() && request.auth.uid == uid && validFish(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Books: everyone in the school reads them all; you change only your own.
+    match /books/{bookId} {
+      allow read: if isMember();
+      allow create: if isMember()
+        && request.resource.data.owner == request.auth.uid
+        && validBook(request.resource.data);
+      allow update: if isMember()
+        && (resource.data.owner == request.auth.uid || isAdmin())
+        && request.resource.data.owner == resource.data.owner
+        && validBook(request.resource.data);
+      allow delete: if isMember() && (resource.data.owner == request.auth.uid || isAdmin());
+    }
+  }
+}

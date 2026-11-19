@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>The Fish Tank</title>
+  <meta name="description" content="The fish bois' group library: what we're reading, what we've finished, and what's next.">
+  <meta name="theme-color" content="#0a4552">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 40'%3E%3Cpath d='M3 7 L19 20 L3 33 Q7 20 3 7Z' fill='%23ff8a5c'/%3E%3Cellipse cx='36' cy='20' rx='23' ry='14' fill='%23ff8a5c'/%3E%3Ccircle cx='49' cy='16' r='4' fill='%23fff'/%3E%3Ccircle cx='50' cy='16' r='2' fill='%2304212a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="tank">
+  <div class="swimmers" id="swimmers" aria-hidden="true"></div>
+  <div class="tank-inner">
+    <div class="topbar" id="account"></div>
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Group library · est. by the fish bois</p>
+        <h1>The Fish <span>Tank</span></h1>
+        <p class="tagline">What the school is reading, what's been fully digested, and what's still sitting in the bait box.</p>
+      </div>
+      <div class="log" aria-label="Tank totals">
+        <div><b id="stat-reading">0</b><small>in the tank</small></div>
+        <div><b id="stat-read">0</b><small>digested</small></div>
+        <div><b id="stat-want">0</b><small>in the bait box</small></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="floor">
+  <main class="content">
+    <div id="notice" class="notice" hidden></div>
+
+    <section class="panel" id="me-panel" hidden aria-label="Your fish"></section>
+
+    <section class="panel" id="add-panel" hidden aria-labelledby="add-title">
+      <h2 id="add-title">Drop a book in the tank</h2>
+      <p class="sub">Start typing and pick the book from the Open Library catalogue. Cover and author fill in for you.</p>
+      <form class="grid" id="add-form" autocomplete="off">
+        <div class="field wide lookup">
+          <label for="add-title-input">Title</label>
+          <input type="text" id="add-title-input" maxlength="200" required placeholder="Search by title, author or ISBN"
+                 role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lookup-results">
+          <ul class="results" id="lookup-results" role="listbox" hidden></ul>
+        </div>
+        <div class="picked wide" id="picked" hidden></div>
+        <label class="field">Author
+          <input type="text" id="add-author" maxlength="200" placeholder="Ernest Hemingway">
+        </label>
+        <label class="field">Shelf
+          <select id="add-shelf">
+            <option value="reading">In the Tank (reading now)</option>
+            <option value="read">Fully Digested (finished)</option>
+            <option value="want">Bait Box (want to read)</option>
+          </select>
+        </label>
+        <label class="field wide">A note for the school (optional)
+          <textarea id="add-note" maxlength="280" placeholder="Big fish energy. Would recommend."></textarea>
+        </label>
+        <div class="row wide">
+          <button class="btn primary" type="submit" id="add-submit">Add to shelf</button>
+          <button class="btn ghost" type="button" id="add-cancel">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="shelves" role="tablist" aria-label="Shelves" id="shelves"></div>
+
+    <div class="toolbar">
+      <label class="sr" for="search">Search the shelves</label>
+      <input type="search" id="search" placeholder="Search the shelves">
+      <button class="btn primary" type="button" id="add-open" hidden>+ Add a book</button>
+    </div>
+    <div class="chips" id="fish-filter" aria-label="Filter by fish"></div>
+
+    <div class="books" id="books" aria-live="polite"></div>
+  </main>
+
+  <aside>
+    <section class="panel" aria-labelledby="school-title">
+      <h2 id="school-title">The School</h2>
+      <p class="sub">Every fish in the tank and their reading haul.</p>
+      <ul class="school" id="school"></ul>
+      <div class="legend">
+        <span><i class="k-reading"></i>Reading</span>
+        <span><i class="k-read"></i>Finished</span>
+        <span><i class="k-want"></i>Want to read</span>
+      </div>
+    </section>
+    <p class="status" id="status"></p>
+    <p class="credit">Book data and covers from <a href="https://openlibrary.org" target="_blank" rel="noopener">Open Library</a>.</p>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
