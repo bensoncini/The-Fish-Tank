@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Privacy · The Fish Tank</title>
+  <meta name="description" content="What The Fish Tank stores about you, who can see it, and how to remove it.">
+  <meta name="theme-color" content="#0a4552">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 40'%3E%3Cpath d='M3 7 L19 20 L3 33 Q7 20 3 7Z' fill='%23ff8a5c'/%3E%3Cellipse cx='36' cy='20' rx='23' ry='14' fill='%23ff8a5c'/%3E%3Ccircle cx='49' cy='16' r='4' fill='%23fff'/%3E%3Ccircle cx='50' cy='16' r='2' fill='%2304212a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc { max-width: 720px; margin: 0 auto; padding-block: 32px 64px; }
+    .doc h1 { font-size: clamp(36px, 7vw, 56px); }
+    .doc h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 32px 0 8px; }
+    .doc p, .doc li { color: var(--foam); max-width: 65ch; }
+    .doc ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+    .doc .muted { color: var(--muted); }
+    .doc .back { display: inline-block; margin-bottom: 24px; font-weight: 700; }
+  </style>
+</head>
+<body>
+<main class="doc gutter">
+  <a class="back" href="./">← Back to the tank</a>
+  <p class="eyebrow">The Fish Tank</p>
+  <h1>Privacy</h1>
+  <p class="muted">Last updated 19 November 2026</p>
+
+  <p>The Fish Tank is a private reading list for a small group of friends. It isn't a business, has no ads, and doesn't sell or share anyone's information.</p>
+
+  <h2>What we store</h2>
+  <ul>
+    <li><strong>From your Google sign-in:</strong> your email address and an account ID. Firebase also keeps the name and profile picture from your Google account with your sign-in record, but the site doesn't display or use them.</li>
+    <li><strong>Your fish:</strong> the fish name and colour you pick.</li>
+    <li><strong>Your books:</strong> titles, authors, which shelf they're on, ratings, notes, and the dates you added or finished them.</li>
+  </ul>
+
+  <h2>Who can see it</h2>
+  <ul>
+    <li>Only people whose email is on the group's member list can see the shelves. Everyone on that list sees everyone's books, fish names, notes and ratings.</li>
+    <li>Your email address isn't shown on the site. The person who runs the tank can see members' emails in the Firebase console, because that's where the member list is kept.</li>
+  </ul>
+
+  <h2>Where it's kept</h2>
+  <p>Sign-in and storage are handled by Google Firebase (Firebase Authentication and Cloud Firestore). The site itself is hosted on GitHub Pages. Google's and GitHub's own privacy policies apply to those services.</p>
+
+  <h2>Other services the site talks to</h2>
+  <ul>
+    <li><strong>Open Library</strong> (openlibrary.org, run by the Internet Archive): when you search for a book, what you type is sent to Open Library, and cover images load from their servers. Your email and fish details are never sent.</li>
+    <li><strong>Google Fonts</strong> supplies the site's typefaces.</li>
+  </ul>
+  <p>The site uses no analytics or tracking. It stores sign-in state in your browser so you stay signed in.</p>
+
+  <h2>Removing your information</h2>
+  <ul>
+    <li>You can remove any of your own books at any time with the “Release” button.</li>
+    <li>To remove your fish and email from the tank entirely, ask the person who runs it. They'll delete your fish and take your email off the member list.</li>
+  </ul>
+</main>
+</body>
+</html>
